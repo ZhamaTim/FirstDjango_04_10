@@ -12,6 +12,9 @@ items = [
 {"id": 8, "name": "Кепка" ,"quantity":124},
 ]
 
+def main(request):
+    return render(request,'index.html')
+
 def home (request):
     text ="""<h1> "Изучаем Django"</h1>
             <strong> Author </strong> : <i>Жамалетдинов Т.Р.</i>
@@ -45,5 +48,3 @@ def items_list(request):
     result+="<ol>"
     return HttpResponse(result)
 
-def main(request):
-    return render(request,'index.html')
