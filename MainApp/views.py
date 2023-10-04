@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseNotFound
 
 
 items = [
@@ -37,3 +37,10 @@ def get_item(request,id):
             """
             return HttpResponse(result)
     return HttpResponseNotFound (f'item whith id = {id} not found')
+
+def items_list(request):
+    result= '<h2> Список товаров<h2><ol>'
+    for item in items:
+        result +=f"""<li><a href="/item/{item["id"]}">{item['name']}</a></li>"""
+    result+="<ol>"
+    return HttpResponse(result)
