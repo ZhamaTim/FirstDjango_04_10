@@ -20,7 +20,7 @@ def home (request):
 
 def about (request):
     message = """ Имя: <strong>Тимур</strong><br>
-               Отчество:<strong> Жамалетдинов</strong><br>
+               Отчество:<strong> Ренатович</strong><br>
                Фамилия:<strong> Жамалетдинов</strong><br>
                телефон:<strong> 8-9</strong><br>
                email: <strong>tim.@mail.ru</strong><br>
@@ -44,3 +44,6 @@ def items_list(request):
         result +=f"""<li><a href="/item/{item["id"]}">{item['name']}</a></li>"""
     result+="<ol>"
     return HttpResponse(result)
+
+def main(request):
+    return render(request,'index.html')
