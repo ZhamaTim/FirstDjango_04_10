@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title> Items list</title>
+    <style type="text/css">
+        .border {
+        display: inline;
+        width: 100px; /* Ширина слоя */
+        margin: 7px; /* Значение отступов */
+        padding: 10px; /* Поля вокруг текста */
+        border: 4px solid black; /* Параметры границы */
+        background: #fc0; /* Цвет фона */
+    }
+    </style>
 </head>
 <body>
     <header>
         /<a href="/">Home</a> / <a href="/items"> Items</a> / <a href="/about"> About</a>
     </header>
-
+    
     <h2>Список товаров</h2>
     <ol>
         {% for item in items %}
-            <li> <a href="/item/{{ item.id }}"> {{ item.name }} </a> </li>
+            <div class="border"> <a href="/item/{{ item.id }}"> {{ item.name }} </a> </div>
         {% endfor %}
     </ol>
 </body>
