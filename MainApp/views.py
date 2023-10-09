@@ -43,16 +43,8 @@ def about (request):
         """
     return HttpResponse(message)
 
-def get_item(request,item_id):
-   # """ возвращает имя и кол во по ид"""
-    #for item in items:
- #       if item ["id"]==id:
-  #          result = f"""
-  #          <h2>Имя:{item["name"]}</h2>
-  #          <p> Количество{item["quantity"]}</p>
-   #         """
-            #return HttpResponse(result)
-    #return HttpResponseNotFound (f'item whith id = {id} not found')
+def get_item(request, item_id):
+    """ По указанному id возвращает имя и количество """
     item = next((item for item in items if item["id"] == item_id), None)
     if item:
         context = {
@@ -60,6 +52,7 @@ def get_item(request,item_id):
         }
         return render(request, "item-page.html", context)
     return HttpResponseNotFound(f'Item with id={id} not found')
+   
 
 def items_list(request):
     #result= '<h2> Список товаров<h2><ol>'
