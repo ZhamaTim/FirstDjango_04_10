@@ -1,67 +1,66 @@
 from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound
+
+from MainApp.models import Item
+
 
 # Create your views here.
-from django.http import HttpResponse,HttpResponseNotFound
-
 author = {
-    "Имя" : "Тимур",
-    "Отчество":"Ренатович",
-    "Фамилия":"Жамалетдинов",
-    "телефон":"8968",
-    "email":"my.mail@gmail.com"
+    "Имя": "Иван",
+    "Отчество": "Петрович",
+    "Фамилия": "Иванов",
+    "телефон": "8-923-600-01-02",
+    "email": "vasya@mail.ru"
+
 }
 
-
-
 items = [
-{"id": 1, "name": "Кроссовки abibas" ,"quantity":5},
-{"id": 2, "name": "Куртка кожаная" ,"quantity":2},
-{"id": 5, "name": "Coca-cola 1 литр" ,"quantity":12},
-{"id": 7, "name": "Картофель фри" ,"quantity":0},
-{"id": 8, "name": "Кепка" ,"quantity":124},
+   {"id": 1, "name": "Кроссовки abibas" ,"quantity":5},
+   {"id": 2, "name": "Куртка кожаная" ,"quantity":2},
+   {"id": 5, "name": "Coca-cola 1 литр" ,"quantity":12},
+   {"id": 7, "name": "Картофель фри" ,"quantity":0},
+   {"id": 8, "name": "Кепка" ,"quantity":124},
 ]
 
-def main(request):
-    return render(request,'index.html')
 
-def home (request):
-    #text ="""<h1> "Изучаем Django"</h1>
-            #<strong> Author </strong> : <i>Жамалетдинов Т.Р.</i>
-          #"""
-          context = {
-               "name":"ZhamTim",
-               "email":"my.mail@gmail.com"
-            }
-          return render (request, 'index.html',context ) 
+def home(request):
+    context = {
+        "name": "Петров Иван Николаевич",
+        "email": "my_mail@example.com"
+    }
+    return render(request, "index.html", context)
 
-def about (request):
-    message = f""" Имя: <b> {author["Имя"]} </b><br>
-               Отчество:<strong> {author["Отчество"]}</strong><br>
-               Фамилия:<strong> {author["Фамилия"]}</strong><br>
-               телефон:<strong> {author["телефон"]}</strong><br>
-               email: <strong>{author["email"]}</strong><br>
-        """
-    return HttpResponse(message)
+
+def about(request):
+    result = f"""
+    <header>
+        /<a href="/">Home</a> / <a href="/items"> Items</a> / <a href="/about"> About</a>
+    </header><br>
+    Имя: <b>{author['Имя']}</b><br>
+    Отчество: <b>{author['Отчество']}</b><br>
+    Фамилия: <b>{author['Фамилия']}</b><br>
+    телефон: <b>{author['телефон']}</b><br>
+    email: <b>{author['email']}</b><br>
+    """
+    return HttpResponse(result)
+
 
 def get_item(request, item_id):
     """ По указанному id возвращает имя и количество """
-    item = next((item for item in items if item["id"] == item_id), None)
-    if item:
+    try:
+        item = Item.objects.get(id=item_id)
+    except Item.DoesNotExist:
+        return HttpResponseNotFound(f'Item with id={item_id} not found')
+    else:
         context = {
             "item": item
         }
         return render(request, "item-page.html", context)
-    return HttpResponseNotFound(f'Item with id={id} not found')
-   
+
 
 def items_list(request):
-    #result= '<h2> Список товаров<h2><ol>'
-    #for item in items:
-    #    result +=f"""<li><a href="/item/{item["id"]}">{item['name']}</a></li>"""
-    #result+="<ol>"
-    #return HttpResponse(result)
+    items = Item.objects.all()
     context = {
-         "items":items
-        
+        "items": items
     }
-    return render ( request, "items-list.html", context)
+    return render(request, "items-list.html", context)

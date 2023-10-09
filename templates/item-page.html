@@ -8,15 +8,17 @@
     <header>
         /<a href="/">Home</a> / <a href="/items"> Items</a> / <a href="/about"> About</a>
     </header>
-
+    
     <h1>{{ item.name }} </h1>
 
     <div>
-        {% if item.quantity == 0 %} Товар отсутствует
-        {% else %} Количество: {{ item.quantity }}
-        {% endif %}
+        Количество: {{ item.count | default:"Товар отсутствует на складе" }}
     </div> 
-
+    <div> 
+        Описание: {{ item.description }}
+    </div>
+    <br>
+    
     <a href="/items"> Назад к списку товаров </a>
 </body>
 </html>
